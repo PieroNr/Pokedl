@@ -3,9 +3,9 @@ import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/",
+        path: "/Pokedl",
         alias: "/Pokedl",
-        name: "test",
+        name: "Pokedl",
         component: () => import("./components/getPokemon.vue"),
     },
 
