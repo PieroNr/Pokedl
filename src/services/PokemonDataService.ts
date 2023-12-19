@@ -4,9 +4,9 @@ import PokemonColorService from "./PokemonColorsService";
 import PokemonHabitatService from "./PokemonHabitatService";
 import PokemonGenService from "./PokemonGenService.ts";
 import PokemonCardService from "./PokemonCardService.ts";
-import Pokemon from "../../../Pokedl-admin/types/Pokemon";
-import Description from "../../../Pokedl-admin/types/Description";
-import Type from "../../../Pokedl-admin/types/Type.ts";
+import Pokemon from "../types/Pokemon";
+import Description from "../types/Description";
+import Type from "../types/Type.ts";
 import {AxiosResponse} from "axios";
 
 
@@ -35,8 +35,8 @@ class PokemonDataService {
                 isFullEvolution = evolution.isFullEvolution;
             }
 
-            const height: number = parseFloat(pokemonData.height.split("m")[0].replace(",",".")).toFixed(1);
-            const weight: number = parseFloat(pokemonData.weight.split("kg")[0].replace(",",".")).toFixed(1);
+            const height: number = Number(parseFloat(pokemonData.height.split("m")[0].replace(",", ".")).toFixed(1));
+            const weight: number = Number(parseFloat(pokemonData.weight.split("kg")[0].replace(",", ".")).toFixed(1));
             const generation: number = pokemonData.generation;
 
 

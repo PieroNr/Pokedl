@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
 import PokemonDataService from "./PokemonDataService.ts";
-import {get} from "axios";
 
 
 class SupabaseService {
@@ -17,7 +16,7 @@ class SupabaseService {
         const pokemonList = await PokemonDataService.getPokemonList();
         pokemonList.shift();
         const lastPokemonId = await this.getLastPokemonId();
-        const index = pokemonList.findIndex((pokemon) => pokemon.pokedexId === lastPokemonId);
+        const index = pokemonList.findIndex((pokemon: any) => pokemon.pokedexId === lastPokemonId);
         const pokemonListToInsert = pokemonList.slice(index + 1, pokemonList.length);
 
         for (const pokemon of pokemonListToInsert) {
@@ -29,7 +28,7 @@ class SupabaseService {
                 console.error(error);
 
             } else {
-                console.log('succès:', currentPokemon.name);
+                console.log('succès:', data);
             }
         }
     }

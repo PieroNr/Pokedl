@@ -41,7 +41,7 @@
   <script lang="ts">
   import { defineComponent } from "vue";
   import SupabaseService from "../services/SupabaseService";
-  import Pokemon from "../../../Pokedl-admin/types/Pokemon";
+  import Pokemon from "../types/Pokemon";
   
   export default defineComponent({
     name: "tutorials-list",
