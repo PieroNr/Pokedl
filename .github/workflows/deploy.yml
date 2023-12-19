@@ -19,7 +19,9 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install -g supabase-cli
 
       - name: Configure Git
         run: |
