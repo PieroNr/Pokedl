@@ -1,28 +1,49 @@
 name: Build Vue
 
 on:
-  push:
-    branches:
-      - main  # Adjust this to your main branch
+  - push
+  - pull_request
 
 jobs:
-  build_vue:
+  cache-and-install:
     runs-on: ubuntu-latest
-    name: Build Vue
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: |
-          curl -L https://unpkg.com/@pnpm/self-installer@latest | node
-          pnpm install
-
-      - name: Build with VuePagesAction
-        id: Build-Vue
-        uses: xRealNeon/VuePagesAction@1.0.1
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          username: 'Piero Neri'
-          reponame: 'Pokedl'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          cmd: 'pnpm run build'  # Adjust this to your build command
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: dist
