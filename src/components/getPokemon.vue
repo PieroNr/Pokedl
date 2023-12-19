@@ -3,7 +3,7 @@
 <!--  <img class="shadow" v-if="pokemon && pokemon.officialArtworkUrl" :src="pokemon.officialArtworkUrl" alt="Official Artwork" />-->
 <!--  <img class="sprite" v-if="pokemon && pokemon.spriteUrl" :src="pokemon.spriteUrl">-->
 <!--  <img class="card" v-if="pokemon && pokemon.cardUrl" :src="pokemon.cardUrl">-->
-  <div>
+  <div v-if="pokemon">
     <div class="slidecontainer">
       <input type="range" min="1" :max="maxDifficulty" v-model="difficulty" class="slider" id="myRange" @input="refreshList">
       <p>Difficulty: {{ difficulty }}</p>
@@ -31,7 +31,9 @@
         <span :style="{color: (triedPokemon.habitation && triedPokemon.habitation == pokemon?.habitation) || (!triedPokemon.habitation && !pokemon?.habitation) ? 'green' : 'red'}">{{ triedPokemon.habitation ? triedPokemon.habitation : '?' }}</span>
         <span :style="{color: triedPokemon.generation == pokemon?.generation ? 'green' : 'red'}">{{ triedPokemon.generation }}</span>
         <span :style="{color: triedPokemon.height == pokemon?.height ? 'green' : 'red'}">{{ triedPokemon.height < pokemon?.height ? triedPokemon.height + 'm⇧' : triedPokemon.height > pokemon?.height ? triedPokemon.height + 'm⇩' : triedPokemon.height +'m' }}</span>
-        <span :style="{color: triedPokemon.height == pokemon?.height ? 'green' : 'red'}">{{ triedPokemon.weight < pokemon?.weight ? triedPokemon.weight + 'kg⇧' : triedPokemon.weight > pokemon?.weight ? triedPokemon.weight + 'kg⇩' : triedPokemon.weight +'kg' }}</span>
+        <span :style="{color: triedPokemon.weight == pokemon?.weight ? 'green' : 'red'}">{{ triedPokemon.weight < pokemon?.weight ? triedPokemon.weight + 'kg⇧' : triedPokemon.weight > pokemon?.weight ? triedPokemon.weight + 'kg⇩' : triedPokemon.weight +'kg' }}</span>
+        <span :style="{color: triedPokemon.evolutionState == pokemon?.evolutionState ? 'green' : 'red'}">{{ triedPokemon.evolutionState < pokemon?.evolutionState ? triedPokemon.evolutionState + '⇧' : triedPokemon.evolutionState > pokemon?.evolutionState ? triedPokemon.evolutionState + '⇩' : triedPokemon.evolutionState }}</span>
+        <span :style="{color: triedPokemon.isFullEvolution == pokemon?.isFullEvolution ? 'green' : 'red'}">{{ triedPokemon.isFullEvolution ? 'yes' : 'no' }}</span>
 
       </div>
 
