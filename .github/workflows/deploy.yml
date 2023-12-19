@@ -7,21 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-supabase:
-    runs-on: ubuntu-latest
-
-    env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
-
-      - run: supabase functions deploy --project-ref $PROJECT_ID
-
   deploy-gh-pages:
     runs-on: ubuntu-latest
 
