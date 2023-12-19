@@ -89,7 +89,7 @@
         this.filteredPokemonList = [];
 
         this.searchedPokemon = await SupabaseService.getPokemonById(pokemon.pokedexId);
-        this.triedPokemons.unshift(this.searchedPokemon)
+        this.triedPokemons.unshift(<Pokemon>this.searchedPokemon)
         this.searchTerm = "";
 
       }
