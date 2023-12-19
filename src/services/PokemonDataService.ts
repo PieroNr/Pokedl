@@ -4,9 +4,9 @@ import PokemonColorService from "./PokemonColorsService";
 import PokemonHabitatService from "./PokemonHabitatService";
 import PokemonGenService from "./PokemonGenService.ts";
 import PokemonCardService from "./PokemonCardService.ts";
-import Pokemon from "../types/Pokemon";
-import Description from "../types/Description";
-import Type from "../types/Type.ts";
+import Pokemon from "../../../Pokedl-admin/types/Pokemon";
+import Description from "../../../Pokedl-admin/types/Description";
+import Type from "../../../Pokedl-admin/types/Type.ts";
 import {AxiosResponse} from "axios";
 
 
@@ -14,7 +14,8 @@ class PokemonDataService {
     async get(pokemonData: any) {
         try {
             const pokedexId: number = pokemonData.pokedexId;
-            const nameId: string = pokemonData.name.en.toLowerCase();
+            const nameId: string = pokemonData.name.en.toLowerCase().replace("♀", "-f").replace("♂", "-m").replace("'", "").replace(". ", "-").replace(" ", "-");
+            console.log(nameId, pokedexId);
             const name: string = pokemonData.name.fr;
 
             const firstType: Type = {
@@ -34,16 +35,16 @@ class PokemonDataService {
                 isFullEvolution = evolution.isFullEvolution;
             }
 
-            const height: number = parseFloat(pokemonData.height.split("m")[0]);
-            const weight: number = parseFloat(pokemonData.weight.split("kg")[0]);
-
+            const height: number = parseFloat(pokemonData.height.split("m")[0].replace(",",".")).toFixed(1);
+            const weight: number = parseFloat(pokemonData.weight.split("kg")[0].replace(",",".")).toFixed(1);
             const generation: number = pokemonData.generation;
 
 
-            const speciesResponse: AxiosResponse = await PokemonSpeciesService.get(nameId);
-            const pokemonResponse: AxiosResponse = await PokemonSpeciesService.getPokemon(nameId);
+            const speciesResponse: AxiosResponse = await PokemonSpeciesService.get(pokedexId);
+            const pokemonResponse: AxiosResponse = await PokemonSpeciesService.getPokemon(pokedexId);
             const colorResponse: AxiosResponse = await PokemonColorService.get(speciesResponse.data.color.url.split("/")[6]);
-            const cardResponse: AxiosResponse = await PokemonCardService.get(nameId);
+
+            const cardResponse: AxiosResponse = await PokemonCardService.get(pokemonData.name.en.toLowerCase().replace("♀", "").replace("♂", ""));
 
             const color: string = colorResponse.data.names.find((name: any) => name.language.name === "fr").name;
 
@@ -67,7 +68,7 @@ class PokemonDataService {
             const pokemon: Pokemon = {
                 name,
                 description,
-                id: pokedexId,
+                pokedexId: pokedexId,
                 firstType: firstType,
                 secondType: secondType,
                 habitation: habitat,
@@ -137,13 +138,15 @@ class PokemonDataService {
         }
     }
     async getPokemonList(gen: number | null = null) {
+        const pokemonToSkipId = [122, 413, 439, 772,785,786,787,788,866,892,905,984,985,986,987,988,989,990,991,992,993,994,995,1005,1006,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018];
         try {
             let pokemonResponse: AxiosResponse;
             if(gen === null){
                 const dataInCache = this.checkIfListInCache();
                 if (dataInCache) {
                     console.log("All gen in cache");
-                    return JSON.parse(dataInCache);
+
+                    return JSON.parse(dataInCache).filter((pokemon: any) => !pokemonToSkipId.includes(pokemon.pokedexId));
                 } else {
                     pokemonResponse = await PokemonService.getAll();
                     localStorage.setItem("pokemonList", JSON.stringify(pokemonResponse.data));
@@ -152,13 +155,14 @@ class PokemonDataService {
                 const dataInCache = this.checkIfListInCache(gen);
                 if (dataInCache) {
                     console.log("gen " + gen + " in cache");
-                    return JSON.parse(dataInCache);
+                    return JSON.parse(dataInCache).filter((pokemon: any) => !pokemonToSkipId.includes(pokemon.pokedexId));
                 } else {
                     pokemonResponse = await PokemonGenService.get(gen);
                     localStorage.setItem(`pokemonList-${gen}`, JSON.stringify(pokemonResponse.data));
                 }
             }
-            return pokemonResponse.data;
+
+            return pokemonResponse.data.filter((pokemon: any) => !pokemonToSkipId.includes(pokemon.pokedexId));
         } catch (error) {
             console.error(error);
             throw error;

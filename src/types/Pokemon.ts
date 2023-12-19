@@ -1,7 +1,7 @@
 import Description from "./Description";
 import Type from "./Type.ts";
 export default interface Pokemon {
-    id: number;
+    pokedexId: number;
     name: string;
     description: Description[];
     firstType: Type;

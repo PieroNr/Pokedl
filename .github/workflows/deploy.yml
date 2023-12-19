@@ -1,0 +1,68 @@
+name: CI/CD with Supabase and GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "${{ secrets.GIT_NAME }}"
+
+      - name: Deploy to Supabase
+        run: |
+          npm run build
+          supabase-cli deploy --project ${{ secrets.SUPABASE_PROJECT }} --token ${{ secrets.SUPABASE_API_KEY }}
+        env:
+          SUPABASE_PROJECT: ${{ secrets.SUPABASE_PROJECT }}
+          SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+
+  deploy-gh-pages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "${{ secrets.GITHUB_EMAIL }}"
+          git config --global user.name "${{ secrets.GITHUB_NAME }}"
+
+      - name: Build for GitHub Pages
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git checkout gh-pages
+          cp -r dist/* .
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git push --force origin gh-pages
+
+# Ajoutez d'autres étapes de votre flux de travail au besoin

@@ -1,11 +1,11 @@
 <template>
   <button @click="refreshList">Refresh List</button>
-  <img class="shadow" v-if="pokemon && pokemon.officialArtworkUrl" :src="pokemon.officialArtworkUrl" alt="Official Artwork" />
-  <img class="sprite" v-if="pokemon && pokemon.spriteUrl" :src="pokemon.spriteUrl">
-  <img class="card" v-if="pokemon && pokemon.cardUrl" :src="pokemon.cardUrl">
+<!--  <img class="shadow" v-if="pokemon && pokemon.officialArtworkUrl" :src="pokemon.officialArtworkUrl" alt="Official Artwork" />-->
+<!--  <img class="sprite" v-if="pokemon && pokemon.spriteUrl" :src="pokemon.spriteUrl">-->
+<!--  <img class="card" v-if="pokemon && pokemon.cardUrl" :src="pokemon.cardUrl">-->
   <div>
     <div class="slidecontainer">
-      <input type="range" min="1" max="8" v-model="difficulty" class="slider" id="myRange" @input="refreshList">
+      <input type="range" min="1" :max="maxDifficulty" v-model="difficulty" class="slider" id="myRange" @input="refreshList">
       <p>Difficulty: {{ difficulty }}</p>
     </div>
     <label for="searchInput">Search by starting letter:</label>
@@ -18,14 +18,17 @@
     />
     <ul v-if="filteredPokemonList.length > 0">
       <li v-for="pokemon in filteredPokemonList" :key="pokemon.pokedexId" @click="tryPokemon(pokemon)">
-        <img class="spriteList" v-if="pokemon && pokemon.sprites.regular" :src="pokemon.sprites.regular"/>
-        <p>{{ pokemon.name.fr }}</p>
+        <img class="spriteList" v-if="pokemon && pokemon.spriteUrl" :src="pokemon.spriteUrl"/>
+        <p>{{ pokemon.name }}</p>
       </li>
     </ul>
     <div v-if="triedPokemons.length > 0">
       <div v-for="triedPokemon in triedPokemons" :key="triedPokemon.name" class="try">
         <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl"/>
         <span :style="{color: triedPokemon.firstType.name == pokemon?.firstType.name ? 'green' : 'red'}">{{ triedPokemon.firstType.name }}</span>
+        <span :style="{color: (triedPokemon.secondType && pokemon?.secondType && triedPokemon.secondType.name == pokemon?.secondType.name) || (!triedPokemon.secondType && !pokemon?.secondType) ? 'green' : 'red'}">{{ triedPokemon.secondType ? triedPokemon.secondType.name : 'Auncun' }}</span>
+        <span :style="{color: triedPokemon.color == pokemon?.color ? 'green' : 'red'}">{{ triedPokemon.color }}</span>
+        <span :style="{color: (triedPokemon.habitation && triedPokemon.habitation == pokemon?.habitation) || (!triedPokemon.habitation && !pokemon?.habitation) ? 'green' : 'red'}">{{ triedPokemon.habitation ? triedPokemon.habitation : '?' }}</span>
       </div>
 
 
@@ -37,8 +40,8 @@
   
   <script lang="ts">
   import { defineComponent } from "vue";
-  import PokemonDataService from "../services/PokemonDataService";
-  import Pokemon from "../types/Pokemon";
+  import SupabaseService from "../services/SupabaseService";
+  import Pokemon from "../../../Pokedl-admin/types/Pokemon";
   
   export default defineComponent({
     name: "tutorials-list",
@@ -47,8 +50,9 @@
         pokemon: null as Pokemon | null,
         searchedPokemon: null as Pokemon | null,
         difficulty: 1 as number,
-        currentPokemonList: [] as any[],
-        filteredPokemonList: [] as any[],
+        maxDifficulty: 1 as number,
+        currentPokemonList: [] as Pokemon[],
+        filteredPokemonList: [] as Pokemon[],
         searchTerm: "",
         triedPokemons: [] as Pokemon[],
       };
@@ -56,7 +60,7 @@
     methods: {
       async getRandomPokemon() {
         try {
-          const { pokemon, pokemonList } = await PokemonDataService.getRandomPokemonUntilGen(this.difficulty);
+          const { pokemon, pokemonList } = await SupabaseService.getRandomPokemonAndPokemonListUntilGen(this.difficulty);
           this.pokemon = pokemon;
           this.currentPokemonList = pokemonList;
         } catch (error) {
@@ -66,7 +70,7 @@
   
       refreshList() {
         this.getRandomPokemon();
-        this.searchTerm = "";
+        ;
         this.filteredPokemonList = [];
         this.triedPokemons = [];
 
@@ -76,19 +80,22 @@
         const searchTermLower = this.searchTerm.toLowerCase();
         if(!searchTermLower) return (this.filteredPokemonList = []);
         this.filteredPokemonList = this.currentPokemonList.filter((pokemon) =>
-            pokemon.name.fr.toLowerCase().startsWith(searchTermLower)
+            pokemon.name.toLowerCase().startsWith(searchTermLower)
         );
       },
 
-      async tryPokemon(pokemon: any){
-        this.searchTerm = pokemon.name.fr;
+      async tryPokemon(pokemon: Pokemon){
+        this.searchTerm = pokemon.name;
         this.filteredPokemonList = [];
-        this.searchedPokemon = await PokemonDataService.get(pokemon);
+
+        this.searchedPokemon = await SupabaseService.getPokemonById(pokemon.pokedexId);
         this.triedPokemons.unshift(this.searchedPokemon)
+        this.searchTerm = "";
 
       }
     },
     async mounted() {
+      this.maxDifficulty = await SupabaseService.getLastGenNumber();
       await this.getRandomPokemon();
     },
   });
