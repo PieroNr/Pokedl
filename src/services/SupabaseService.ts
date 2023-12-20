@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import PokemonDataService from "./PokemonDataService.ts";
+import {Gamemodes} from "../enums/Gamemodes.ts";
 
 
 class SupabaseService {
@@ -55,6 +56,25 @@ class SupabaseService {
             throw error;
         } else {
             return data;
+        }
+    }
+
+    async getDailyPokemon(difficulty: number | null = 1, gamemode: Gamemodes) {
+        //get by difficulty et date
+        const { data, error } = await this.getClient()
+            .from('dailyPokemon')
+            .select('*')
+            .eq('difficulty', difficulty)
+            .eq('date', new Date().toISOString().slice(0, 10))
+            .eq('gamemodeId', gamemode);
+
+        if (error) {
+            console.error(error);
+            throw error;
+        } else {
+            const pokemon = await this.getPokemonById(data[0].pokemonId);
+            const pokemonList = await this.getPokemonsUntilGen(difficulty);
+            return { pokemon: pokemon, pokemonList };
         }
     }
 

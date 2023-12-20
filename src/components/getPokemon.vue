@@ -1,8 +1,5 @@
 <template>
   <button @click="refreshList">Refresh List</button>
-<!--  <img class="shadow" v-if="pokemon && pokemon.officialArtworkUrl" :src="pokemon.officialArtworkUrl" alt="Official Artwork" />-->
-<!--  <img class="sprite" v-if="pokemon && pokemon.spriteUrl" :src="pokemon.spriteUrl">-->
-<!--  <img class="card" v-if="pokemon && pokemon.cardUrl" :src="pokemon.cardUrl">-->
   <div v-if="pokemon">
     <div class="slidecontainer">
       <input type="range" min="1" :max="maxDifficulty" v-model="difficulty" class="slider" id="myRange" @input="refreshList">
@@ -45,10 +42,11 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent } from "vue";
+  import {defineComponent} from "vue";
   import SupabaseService from "../services/SupabaseService";
   import Pokemon from "../types/Pokemon";
-  
+  import {Gamemodes} from "../enums/Gamemodes.ts";
+
   export default defineComponent({
     name: "tutorials-list",
     data() {
@@ -64,10 +62,11 @@
       };
     },
     methods: {
-      async getRandomPokemon() {
+      async getDailyPokemon() {
         try {
-          const { pokemon, pokemonList } = await SupabaseService.getRandomPokemonAndPokemonListUntilGen(this.difficulty);
+          const { pokemon, pokemonList } = await SupabaseService.getDailyPokemon(this.difficulty, Gamemodes.MOTUS);
           this.pokemon = pokemon;
+          console.log(pokemon);
           this.currentPokemonList = pokemonList;
         } catch (error) {
           console.error("Error:", error);
@@ -75,7 +74,7 @@
       },
   
       refreshList() {
-        this.getRandomPokemon();
+        this.getDailyPokemon();
         ;
         this.filteredPokemonList = [];
         this.triedPokemons = [];
@@ -102,7 +101,8 @@
     },
     async mounted() {
       this.maxDifficulty = await SupabaseService.getLastGenNumber();
-      await this.getRandomPokemon();
+      await this.getDailyPokemon();
+
     },
   });
   </script>
