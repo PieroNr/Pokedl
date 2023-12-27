@@ -2,7 +2,7 @@
 
   <div class="motus container">
 
-    <div v-if="pokemon">
+    <div v-if="pokemon" class="motus-pokemon">
 
       <DifficultySelector :max-difficulty="maxDifficulty" @difficulty-updated="updateDifficulty" />
       <SearchBar :pokemon-list="currentPokemonList" @pokemon-selected="tryPokemon" />
@@ -87,9 +87,19 @@
   });
   </script>
   
-  <style>
+  <style lang="scss">
 
   .motus {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    &-pokemon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+
   }
 
   </style>

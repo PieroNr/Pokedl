@@ -32,7 +32,10 @@ export default {
   methods: {
     filterPokemonList() {
       if (this.pokemonList === undefined) return;
-
+      if (this.searchTerm === "") {
+        this.showSuggestions = false;
+        return;
+      }
       this.suggestions = this.pokemonList.filter((pokemon: Pokemon) =>
           pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
       );
@@ -77,12 +80,29 @@ export default {
 
   .search-bar {
     position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    input {
+      width: calc(70% - 2rem);
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+    }
   }
 
   .suggestions-list {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%;
+    width: calc(70% - 2rem);
+    height: 350px;
+    overflow-y: scroll;
+    transform: translateX(-50%);
     background-color: #ececec;
     color: white;
     border-radius: 0 0 25px 25px;
@@ -90,6 +110,7 @@ export default {
     p{
       margin-left: 10px;
       color: #333333;
+      font-size: 1.3rem;
     }
   }
 
