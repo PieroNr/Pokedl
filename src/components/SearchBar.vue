@@ -32,8 +32,8 @@ export default {
   methods: {
     filterPokemonList() {
 
-      this.suggestions = this.pokemonList.filter((pokemon: Pokemon) =>
-          pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+      this.suggestions = this.pokemonList.filter((pokemon: Pokemon | undefined) =>
+          pokemon?.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
       );
 
       // Show/hide suggestions based on the presence of search results

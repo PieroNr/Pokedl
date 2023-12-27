@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <div v-if="triedPokemons.length > 0 && pokemon">
+    <div v-if="triedPokemons?.length > 0 && pokemon">
       <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try">
         <div v-if="triedPokemon">
           <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl"/>
