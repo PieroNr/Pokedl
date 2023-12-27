@@ -1,17 +1,18 @@
-import { createClient } from '@supabase/supabase-js'
+import {createClient, SupabaseClient} from '@supabase/supabase-js'
 import PokemonDataService from "./PokemonDataService.ts";
 import {Gamemodes} from "../enums/Gamemodes.ts";
 
 
 class SupabaseService {
 
+    client: SupabaseClient;
 
-    getClient() {
+    constructor() {
         const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
         const supabaseKey = import.meta.env.VITE_SUPABASE_KEY || '';
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        return supabase;
+        this.client = createClient(supabaseUrl, supabaseKey);
     }
+
 
     async insertAllPokemon() {
         const pokemonList = await PokemonDataService.getPokemonList();
@@ -22,7 +23,7 @@ class SupabaseService {
 
         for (const pokemon of pokemonListToInsert) {
             const currentPokemon = await PokemonDataService.get(pokemon);
-            const { data, error } = await this.getClient()
+            const { data, error } = await this.client
                 .from('pokemon')
                 .insert(currentPokemon);
             if (error) {
@@ -35,7 +36,7 @@ class SupabaseService {
     }
 
     async getPokemons() {
-        const { data, error } = await this.getClient()
+        const { data, error } = await this.client
             .from('pokemon')
             .select('*');
         if (error) {
@@ -47,7 +48,7 @@ class SupabaseService {
     }
 
     async getPokemonsUntilGen(gen: number | null = null) {
-        const { data, error } = await this.getClient()
+        const { data, error } = await this.client
             .from('pokemon')
             .select('*')
             .lte('generation', gen);
@@ -61,7 +62,7 @@ class SupabaseService {
 
     async getDailyPokemon(difficulty: number | null = 1, gamemode: Gamemodes) {
         //get by difficulty et date
-        const { data, error } = await this.getClient()
+        const { data, error } = await this.client
             .from('dailyPokemon')
             .select('*')
             .eq('difficulty', difficulty)
@@ -85,7 +86,7 @@ class SupabaseService {
     }
 
     async getLastGenNumber() {
-        const { data, error } = await this.getClient()
+        const { data, error } = await this.client
             .from('pokemon')
             .select('generation')
             .order('generation', { ascending: false })
@@ -99,7 +100,7 @@ class SupabaseService {
     }
 
     async getPokemonById(id: number) {
-        const { data, error } = await this.getClient()
+        const { data, error } = await this.client
             .from('pokemon')
             .select('*')
             .eq('pokedexId', id);
@@ -114,7 +115,7 @@ class SupabaseService {
 
 
     async getLastPokemonId() {
-        const { data, error } = await this.getClient()
+        const { data, error } = await this.client
             .from('pokemon')
             .select('pokedexId')
             .order('pokedexId', { ascending: false })

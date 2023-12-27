@@ -4,10 +4,23 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/Pokedl",
-        alias: "/Pokedl",
-        name: "Pokedl",
-        component: () => import("./components/getPokemon.vue"),
+        redirect: "/Pokedl/Home",
+        component: () => import("./components/Home.vue"),
     },
+    {
+        path: "/Pokedl/Home",
+        alias: "/Pokedl/Home",
+        name: "Pokedl",
+        component: () => import("./components/Home.vue"),
+    },
+    {
+        path: "/Pokedl/Motus",
+        name: "Motus",
+        component: () => import("./components/Motus.vue"),
+    },
+
+
+
 
 ];
 

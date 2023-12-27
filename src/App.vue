@@ -1,35 +1,11 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import Header from "./components/Header.vue";
 
-export default defineComponent({
-  name: "App",
-  setup() {
-    return {};
-  },
-  methods: {
-    enableNotifications() {
-      if (!("Notification" in window)) {
-        alert("This browser does not support desktop notification");
-      } else if (Notification.permission === "granted") {
-         new Notification("Hi already!");
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(function (permission) {
-          if (permission === "granted") {
-            new Notification("Hi there!");          }
-        });
-      }
-    },
-
-
-  },
-});
 </script>
 
 <template>
+  <Header title="Pokedl" v-if="!$route.path.includes('Home')" />
 <div class="container mt-3">
-      <button id="notifications"
-              @click="enableNotifications"
-      >Enable notifications</button>
       <router-view />
     </div>
 </template>
