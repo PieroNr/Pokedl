@@ -26,20 +26,20 @@ export default {
     return {
       searchTerm: "",
       showSuggestions: false,
-      suggestions: [],
+      suggestions: [] as Pokemon[],
     };
   },
   methods: {
     filterPokemonList() {
 
-      this.suggestions = this.pokemonList.filter((pokemon) =>
+      this.suggestions = this.pokemonList.filter((pokemon: Pokemon) =>
           pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
       );
 
       // Show/hide suggestions based on the presence of search results
       this.showSuggestions = this.suggestions.length > 0;
     },
-    selectSuggestion(selectedPokemon) {
+    selectSuggestion(selectedPokemon: Pokemon) {
       // Handle the selection of a suggestion
       // You may want to emit an event or perform some action
       this.$emit("pokemon-selected", selectedPokemon);

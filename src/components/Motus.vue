@@ -49,7 +49,7 @@
         }
       },
 
-      updateDifficulty(newDifficulty) {
+      updateDifficulty(newDifficulty: number) {
         this.difficulty = newDifficulty;
         this.refreshList();
       },
