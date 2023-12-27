@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     filterPokemonList() {
-      if (this.pokemonList.length === 0 || !this.pokemonList) return;
+      if (this.pokemonList === undefined) return;
       this.suggestions = this.pokemonList.filter((pokemon: Pokemon | undefined) => {
           if(!pokemon) return false;
           pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())}
