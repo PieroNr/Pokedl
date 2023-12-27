@@ -20,7 +20,6 @@
   import SearchBar from "./SearchBar.vue";
   import TriedPokemonList from "./TriedPokemonList.vue";
   import DifficultySelector from "./DifficultySelector.vue";
-  import Header from "./Header.vue";
 
 
   export default defineComponent({

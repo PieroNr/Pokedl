@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
     maxDifficulty: {
@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     updateDifficulty() {
-      // Émettre un événement lorsque la difficulté est mise à jour
       this.$emit("difficulty-updated", this.difficulty);
     },
   },
