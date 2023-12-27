@@ -1,10 +1,10 @@
 <!-- TriedPokemonList.vue -->
 
 <template>
-  <div>
+  <div class="tried-pokemon-list container">
     <div v-if="triedPokemons && triedPokemons.length > 0 && pokemon">
       <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try">
-        <div v-if="triedPokemon">
+        <div v-if="triedPokemon" class="try-list">
           <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl"/>
           <span :style="{color: triedPokemon.firstType.name == pokemon?.firstType.name ? 'green' : 'red'}">{{ triedPokemon.firstType.name }}</span>
           <span :style="{color: (triedPokemon.secondType && pokemon?.secondType && triedPokemon.secondType.name == pokemon?.secondType.name) || (!triedPokemon.secondType && !pokemon?.secondType) ? 'green' : 'red'}">{{ triedPokemon.secondType ? triedPokemon.secondType.name : 'Aucun' }}</span>
@@ -33,6 +33,24 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.tried-pokemon-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+  gap: 20px;
+}
+
+.try-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0;
+  gap: 20px;
+}
 
 </style>

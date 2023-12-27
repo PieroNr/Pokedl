@@ -32,13 +32,14 @@ export default {
   methods: {
     filterPokemonList() {
       if (this.pokemonList === undefined) return;
-      this.suggestions = this.pokemonList.filter((pokemon: Pokemon | undefined) => {
-          if(!pokemon) return false;
-          pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())}
+
+      this.suggestions = this.pokemonList.filter((pokemon: Pokemon) =>
+          pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
       );
 
       // Show/hide suggestions based on the presence of search results
       this.showSuggestions = this.suggestions.length > 0;
+      console.log(this.suggestions);
     },
     selectSuggestion(selectedPokemon: Pokemon) {
       // Handle the selection of a suggestion
@@ -53,6 +54,47 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Styles remain the same */
+<style scoped lang="scss">
+ ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+  }
+
+  li {
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+  }
+
+  li:hover {
+    background-color: #ffbe0f;
+    color: white;
+  }
+
+  .search-bar {
+    position: relative;
+  }
+
+  .suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ececec;
+    color: white;
+    border-radius: 0 0 25px 25px;
+
+    p{
+      margin-left: 10px;
+      color: #333333;
+    }
+  }
+
+  .spriteList {
+    width: 50px;
+    height: 50px;
+  }
 </style>
