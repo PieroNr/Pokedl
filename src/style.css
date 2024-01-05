@@ -9,6 +9,7 @@ body{
     max-width: 100%;
     min-width: 100%;
     background-color: #f8f8f8;
+    overflow: hidden;
 
 }
 
