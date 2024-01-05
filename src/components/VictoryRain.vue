@@ -8,59 +8,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core'
-
-
-library.add(faStar)
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'VictoryRain',
-  components: {
-    FontAwesomeIcon,
-  },
+  name: "win-rain",
   props: {
     trigger: Boolean,
   },
-  setup(props) {
-    const stars = ref([]);
-
-    const generateStars = () => {
-      for (let i = 0; i < 100; i++) {
-        stars.value.push({
-          id: i,
-          top: Math.random() * -110,
-          left: Math.random() * 100,
-          width: Math.random() * 20 + 20,
-        });
-
-      }
-    };
-
-    const clearStars = () => {
-      stars.value = [];
-    };
-
-    onMounted(() => {
-      if (props.trigger) {
-        generateStars();
-        setInterval(() => {
-          clearStars();
-
-        }, 3000);
-      }
-
-    });
-
-    onUnmounted(() => {
-      clearStars();
-    });
-
+  data() {
     return {
-      stars,
+      isWin: false,
     };
+  },
+  watch: {
+    trigger() {
+      this.isWin = true;
+    },
   },
 });
 </script>
@@ -115,6 +78,7 @@ export default defineComponent({
     }
     100% {
       opacity: 1;
+
     }
 
   }
