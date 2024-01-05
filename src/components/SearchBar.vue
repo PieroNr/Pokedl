@@ -5,6 +5,7 @@
         v-model="searchTerm"
         @input="filterPokemonList"
         placeholder="Enter a Pokemon name"
+        :disabled="isWin"
     />
     <ul v-if="showSuggestions" class="suggestions-list">
       <li v-for="suggestion in suggestions" :key="suggestion.pokedexId" @click="selectSuggestion(suggestion)">
@@ -21,6 +22,7 @@ import Pokemon from "../types/Pokemon";
 export default {
   props: {
     pokemonList: Array as () => Pokemon[],
+    isWin: Boolean as () => boolean,
   },
   data() {
     return {

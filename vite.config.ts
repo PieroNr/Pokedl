@@ -21,7 +21,7 @@ export default defineConfig({
       description: 'Pokedl',
       theme_color: '#ffffff',
       background_color: '#ffffff',
-      display: 'fullscreen',
+      display: 'standalone',
       icons: [
         {
           src: 'android-chrome-192x192.png',

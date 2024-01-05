@@ -5,7 +5,11 @@
   <div class="tried-pokemon-list container">
     <div v-if="triedPokemons && triedPokemons.length > 0 && pokemon" class="tried-pokemon-list-container">
       <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try">
-        <div v-if="triedPokemon" class="try-list">
+        <div class="box-inner">
+        <div v-if="triedPokemon" class="try-list box-front">
+          <img class="spriteList-white" v-if="triedPokemon && triedPokemon.officialArtworkUrl" :src="triedPokemon.officialArtworkUrl"/>
+        </div>
+        <div v-if="triedPokemon" class="try-list box-back">
 
           <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl"/>
 
@@ -18,6 +22,7 @@
           <span :style="{backgroundColor: triedPokemon.weight == pokemon?.weight ? '#7fc27f' : Math.abs(triedPokemon.weight-pokemon?.weight) <= 5 ? '#ffc954' : '#ff9393'}"><p class="prop">Poids</p>{{ triedPokemon.weight < pokemon?.weight ? triedPokemon.weight + 'kg⇧' : triedPokemon.weight > pokemon?.weight ? triedPokemon.weight + 'kg⇩' : triedPokemon.weight +'kg' }}</span>
           <span :style="{backgroundColor: triedPokemon.evolutionState == pokemon?.evolutionState ? '#7fc27f' : '#ff9393'}"><p class="prop">Stade Evol</p>{{ triedPokemon.evolutionState < pokemon?.evolutionState ? triedPokemon.evolutionState + '⇧' : triedPokemon.evolutionState > pokemon?.evolutionState ? triedPokemon.evolutionState + '⇩' : triedPokemon.evolutionState }}</span>
           <span :style="{backgroundColor: triedPokemon.isFullEvolution == pokemon?.isFullEvolution ? '#7fc27f' : '#ff9393'}"><p class="prop">Full Evol</p>{{ triedPokemon.isFullEvolution ? 'yes' : 'no' }}</span>
+        </div>
         </div>
       </div>
     </div>
@@ -43,8 +48,10 @@ export default {
   flex-direction: column;
   margin: 0 auto;
   gap: 20px;
-  height: 500px;
   border-top: 1px solid #9a9a9a;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
 
   &-container {
     overflow-y: scroll;
@@ -55,6 +62,46 @@ export default {
 
 .try {
   margin: 25px 0;
+  perspective: 1000px;
+  height: 425px;
+
+  .box-inner {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .box-inner {
+    animation: rotation 1.5s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes rotation {
+
+    to {
+      transform: rotateY(180deg);
+    }
+
+  }
+
+  .box-front{
+    background-color: #e0e0e0;
+    width: 100%;
+    height: 425px;
+
+  }
+
+  .box-front,
+  .box-back {
+    position: absolute;
+    backface-visibility: hidden;
+  }
+
+
+  .box-back {
+    transform: rotateY(180deg);
+  }
 
 }
 
@@ -97,14 +144,23 @@ export default {
     }
   }
 
-  img {
+  .spriteList {
     box-shadow: none;
     background-color: #ffffff;
     object-fit: contain;
     width: calc(100px * 3 + 6px * 2);
     border-radius: 15px 15px 0 0;
     height: 100px;
+
   }
+
+  .spriteList-white {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    filter: brightness(0) invert(1);
+  }
+
 }
 
 </style>

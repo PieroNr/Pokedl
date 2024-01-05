@@ -22,6 +22,7 @@ export default defineComponent({
     background-color: #ffbe0f;
     color: white;
     width: 100%;
+    height: 70px;
     margin-bottom: 16px;
     border-radius: 0 0 25px 25px;
   }

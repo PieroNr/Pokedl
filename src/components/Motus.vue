@@ -5,11 +5,12 @@
     <div v-if="pokemon" class="motus-pokemon">
 
       <DifficultySelector :max-difficulty="maxDifficulty" @difficulty-updated="updateDifficulty" />
-      <SearchBar :pokemon-list="currentPokemonList" @pokemon-selected="tryPokemon" />
+      <SearchBar :pokemon-list="currentPokemonList" @pokemon-selected="tryPokemon" :is-win="isWin"/>
       <TriedPokemonList :tried-pokemons="triedPokemons" :pokemon="pokemon" />
 
     </div>
   </div>
+  <VictoryRain :trigger="isWin" v-if="isWin" @continue="Continue"/>
   </template>
   
   <script lang="ts">
@@ -20,11 +21,12 @@
   import SearchBar from "./SearchBar.vue";
   import TriedPokemonList from "./TriedPokemonList.vue";
   import DifficultySelector from "./DifficultySelector.vue";
+  import VictoryRain from "./VictoryRain.vue";
 
 
   export default defineComponent({
     name: "tutorials-list",
-    components: {DifficultySelector, TriedPokemonList, SearchBar},
+    components: {VictoryRain, DifficultySelector, TriedPokemonList, SearchBar},
     data() {
       return {
         pokemon: null as Pokemon | null,
@@ -33,6 +35,7 @@
         maxDifficulty: 1 as number,
         currentPokemonList: [] as Pokemon[],
         filteredPokemonList: [] as Pokemon[],
+        isWin: false as boolean,
         searchTerm: "",
         triedPokemons: [] as Pokemon[],
       };
@@ -69,30 +72,49 @@
         );
       },
 
+      win(){
+        this.isWin = true;
+      },
+
+      Continue(){
+        this.isWin = false;
+        this.refreshList();
+      },
+
       async tryPokemon(pokemon: Pokemon){
         this.searchTerm = pokemon.name;
         this.filteredPokemonList = [];
 
         this.searchedPokemon = await SupabaseService.getPokemonById(pokemon.pokedexId);
         this.triedPokemons.unshift(<Pokemon>this.searchedPokemon)
+        if(pokemon.pokedexId == this.pokemon?.pokedexId){
+          this.win();
+        }
         this.searchTerm = "";
 
       }
     },
-    async mounted() {
+
+    async created() {
       this.maxDifficulty = await SupabaseService.getLastGenNumber();
       await this.getDailyPokemon();
-
     },
+
+
+
   });
   </script>
   
   <style lang="scss">
 
   .motus {
-    margin: 1rem;
+    margin: 0 1rem;
     width: calc(100% - 2rem);
+
     &-pokemon {
+      flex-flow: column;
+      height: calc(100vh - 70px - 16px);
+      overflow-y: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
