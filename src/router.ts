@@ -1,40 +1,36 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { RouteRecordRaw } from "vue-router";
-import Home from "./components/Home.vue";
-import Motus from "./components/Motus.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/Pokedl",
         redirect: "/Pokedl/Home",
-        component: () => Home,
+        component: () => import("./components/Home.vue"),
         children: [
             {
                 path: "/Pokedl/Home",
                 alias: "/Pokedl/Home",
                 name: "Pokedl",
-                component: () => Home,
+                component: () => import("./components/Home.vue"),
             },
             {
                 path: "/Pokedl/Motus",
                 name: "Motus",
-                component: () => Motus,
+                component: () => import("./components/Motus.vue"),
             },
         ],
     },
-
     {
         path: "/Pokedl/Home",
         alias: "/Pokedl/Home",
         name: "Pokedl",
-        component: () => Home,
+        component: () => import("./components/Home.vue"),
     },
     {
         path: "/Pokedl/Motus",
         name: "Motus",
-        component: () => Motus,
+        component: () => import("./components/Motus.vue"),
     },
-
 
 
 
