@@ -20,6 +20,8 @@ export default defineConfig({
       short_name: 'Pokedl',
       description: 'Pokedl',
       theme_color: '#ffffff',
+      background_color: '#ffffff',
+      display: 'fullscreen',
       icons: [
         {
           src: 'android-chrome-192x192.png',

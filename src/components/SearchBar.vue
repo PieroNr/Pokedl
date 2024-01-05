@@ -99,6 +99,7 @@ export default {
     position: absolute;
     top: 100%;
     left: 50%;
+    z-index: 10;
     width: calc(70% - 2rem);
     height: 350px;
     overflow-y: scroll;
