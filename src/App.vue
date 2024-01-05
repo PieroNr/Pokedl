@@ -14,5 +14,6 @@ import Header from "./components/Header.vue";
 .container{
   height: calc(100vh - 70px - 16px);
   display: flex;
-  justify-content: center;}
+  justify-content: center;
+  overflow: hidden;}
 </style>

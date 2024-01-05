@@ -110,6 +110,7 @@
   .motus {
     margin: 0 1rem;
     width: calc(100% - 2rem);
+    overflow: hidden;
 
     &-pokemon {
       flex-flow: column;
