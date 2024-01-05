@@ -6,8 +6,8 @@
     <div v-if="triedPokemons && triedPokemons.length > 0 && pokemon" class="tried-pokemon-list-container">
       <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try">
         <div class="box-inner">
-        <div v-if="triedPokemon" class="try-list box-front">
-          <img class="spriteList-white" v-if="triedPokemon && triedPokemon.officialArtworkUrl" :src="triedPokemon.officialArtworkUrl"/>
+        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front">
+          <img class="spriteList-white" :src="triedPokemon.officialArtworkUrl"/>
         </div>
         <div v-if="triedPokemon" class="try-list box-back">
 
@@ -52,6 +52,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 
   &-container {
     overflow-y: scroll;
