@@ -5,31 +5,48 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/Pokedl",
         redirect: "/Pokedl/Home",
-        component: () => import("./components/Home.vue"),
+        component: () => import("./pages/Home.vue"),
         children: [
             {
                 path: "/Pokedl/Home",
                 alias: "/Pokedl/Home",
                 name: "Pokedl",
-                component: () => import("./components/Home.vue"),
+                component: () => import("./pages/Home.vue"),
             },
             {
                 path: "/Pokedl/Motus",
                 name: "Motus",
-                component: () => import("./components/Motus.vue"),
+                component: () => import("./pages/Motus.vue"),
             },
+            {
+                path: "/Pokedl/Description",
+                name: "Description",
+                component: () => import("./pages/Description.vue"),
+            },
+
         ],
     },
     {
         path: "/Pokedl/Home",
         alias: "/Pokedl/Home",
         name: "Pokedl",
-        component: () => import("./components/Home.vue"),
+        component: () => import("./pages/Home.vue"),
     },
     {
         path: "/Pokedl/Motus",
         name: "Motus",
-        component: () => import("./components/Motus.vue"),
+        component: () => import("./pages/Motus.vue"),
+    },
+    {
+        path: "/Pokedl/Description",
+        name: "Description",
+        component: () => import("./pages/Description.vue"),
+    },
+    {
+        path: "/:catchAll(.*)",
+        redirect: "/Pokedl/Home",
+        Children: [
+            ]
     },
 
 

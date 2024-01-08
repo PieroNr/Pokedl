@@ -4,24 +4,24 @@
 
   <div class="tried-pokemon-list container">
     <div v-if="triedPokemons && triedPokemons.length > 0 && pokemon" class="tried-pokemon-list-container">
-      <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try">
+      <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px!important' : 'auto'}">
         <div class="box-inner">
-        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front">
+        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px!important' : 'auto'}">
           <img class="spriteList-white" :src="triedPokemon.officialArtworkUrl"/>
         </div>
-        <div v-if="triedPokemon" class="try-list box-back">
+        <div v-if="triedPokemon" class="try-list box-back" :style="{backgroundColor: gamemode==Gamemodes.DEFINITION ? triedPokemon.pokedexId == pokemon.pokedexId ? '#7fc27f' : '#ff9393' : 'transparent'}">
 
-          <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl"/>
+          <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl" />
 
-          <span :style="{backgroundColor: triedPokemon.firstType.name == pokemon?.firstType.name ? '#7fc27f' : '#ff9393'}"><p class="prop">Type 1</p>{{ triedPokemon.firstType.name }}</span>
-          <span :style="{backgroundColor: (triedPokemon.secondType && pokemon?.secondType && triedPokemon.secondType.name == pokemon?.secondType.name) || (!triedPokemon.secondType && !pokemon?.secondType) ? '#7fc27f' : '#ff9393'}"><p class="prop">Type 2</p>{{ triedPokemon.secondType ? triedPokemon.secondType.name : 'Aucun' }}</span>
-          <span :style="{backgroundColor: triedPokemon.color == pokemon?.color ? '#7fc27f' : '#ff9393'}"><p class="prop">Couleur</p>{{ triedPokemon.color }}</span>
-          <span :style="{backgroundColor: (triedPokemon.habitation && triedPokemon.habitation == pokemon?.habitation) || (!triedPokemon.habitation && !pokemon?.habitation) ? '#7fc27f' : '#ff9393'}"><p class="prop">Habitat</p>{{ triedPokemon.habitation ? triedPokemon.habitation : '?' }}</span>
-          <span :style="{backgroundColor: triedPokemon.generation == pokemon?.generation ? '#7fc27f' : '#ff9393'}"><p class="prop">Gen</p>{{ triedPokemon.generation }}</span>
-          <span :style="{backgroundColor: triedPokemon.height == pokemon?.height ? '#7fc27f' : Math.abs(triedPokemon.height-pokemon?.height) <= 0.3 ? '#ffc954' : '#ff9393'}"><p class="prop">Taille</p>{{ triedPokemon.height < pokemon?.height ? triedPokemon.height + 'm⇧' : triedPokemon.height > pokemon?.height ? triedPokemon.height + 'm⇩' : triedPokemon.height +'m' }}</span>
-          <span :style="{backgroundColor: triedPokemon.weight == pokemon?.weight ? '#7fc27f' : Math.abs(triedPokemon.weight-pokemon?.weight) <= 5 ? '#ffc954' : '#ff9393'}"><p class="prop">Poids</p>{{ triedPokemon.weight < pokemon?.weight ? triedPokemon.weight + 'kg⇧' : triedPokemon.weight > pokemon?.weight ? triedPokemon.weight + 'kg⇩' : triedPokemon.weight +'kg' }}</span>
-          <span :style="{backgroundColor: triedPokemon.evolutionState == pokemon?.evolutionState ? '#7fc27f' : '#ff9393'}"><p class="prop">Stade Evol</p>{{ triedPokemon.evolutionState < pokemon?.evolutionState ? triedPokemon.evolutionState + '⇧' : triedPokemon.evolutionState > pokemon?.evolutionState ? triedPokemon.evolutionState + '⇩' : triedPokemon.evolutionState }}</span>
-          <span :style="{backgroundColor: triedPokemon.isFullEvolution == pokemon?.isFullEvolution ? '#7fc27f' : '#ff9393'}"><p class="prop">Full Evol</p>{{ triedPokemon.isFullEvolution ? 'yes' : 'no' }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.firstType.name == pokemon?.firstType.name ? '#7fc27f' : '#ff9393'}"><p class="prop">Type 1</p>{{ triedPokemon.firstType.name }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: (triedPokemon.secondType && pokemon?.secondType && triedPokemon.secondType.name == pokemon?.secondType.name) || (!triedPokemon.secondType && !pokemon?.secondType) ? '#7fc27f' : '#ff9393'}"><p class="prop">Type 2</p>{{ triedPokemon.secondType ? triedPokemon.secondType.name : 'Aucun' }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.color == pokemon?.color ? '#7fc27f' : '#ff9393'}"><p class="prop">Couleur</p>{{ triedPokemon.color }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: (triedPokemon.habitation && triedPokemon.habitation == pokemon?.habitation) || (!triedPokemon.habitation && !pokemon?.habitation) ? '#7fc27f' : '#ff9393'}"><p class="prop">Habitat</p>{{ triedPokemon.habitation ? triedPokemon.habitation : '?' }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.generation == pokemon?.generation ? '#7fc27f' : '#ff9393'}"><p class="prop">Gen</p>{{ triedPokemon.generation }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.height == pokemon?.height ? '#7fc27f' : Math.abs(triedPokemon.height-pokemon?.height) <= 0.3 ? '#ffc954' : '#ff9393'}"><p class="prop">Taille</p>{{ triedPokemon.height < pokemon?.height ? triedPokemon.height + 'm⇧' : triedPokemon.height > pokemon?.height ? triedPokemon.height + 'm⇩' : triedPokemon.height +'m' }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.weight == pokemon?.weight ? '#7fc27f' : Math.abs(triedPokemon.weight-pokemon?.weight) <= 5 ? '#ffc954' : '#ff9393'}"><p class="prop">Poids</p>{{ triedPokemon.weight < pokemon?.weight ? triedPokemon.weight + 'kg⇧' : triedPokemon.weight > pokemon?.weight ? triedPokemon.weight + 'kg⇩' : triedPokemon.weight +'kg' }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.evolutionState == pokemon?.evolutionState ? '#7fc27f' : '#ff9393'}"><p class="prop">Stade Evol</p>{{ triedPokemon.evolutionState < pokemon?.evolutionState ? triedPokemon.evolutionState + '⇧' : triedPokemon.evolutionState > pokemon?.evolutionState ? triedPokemon.evolutionState + '⇩' : triedPokemon.evolutionState }}</span>
+          <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.isFullEvolution == pokemon?.isFullEvolution ? '#7fc27f' : '#ff9393'}"><p class="prop">Full Evol</p>{{ triedPokemon.isFullEvolution ? 'yes' : 'no' }}</span>
         </div>
         </div>
       </div>
@@ -31,11 +31,18 @@
 
 <script lang="ts">
 import Pokemon from "../types/Pokemon";
+import {Gamemodes} from "../enums/Gamemodes.ts";
 
 export default {
+  computed: {
+    Gamemodes() {
+      return Gamemodes
+    }
+  },
   props: {
     triedPokemons: Array as () => Pokemon[],
     pokemon: Object as () => Pokemon | null,
+    gamemode: Number as () => Gamemodes,
   },
 
 };
@@ -51,8 +58,7 @@ export default {
   border-top: 1px solid #9a9a9a;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-y: hidden;
 
   &-container {
     overflow-y: scroll;
@@ -65,13 +71,17 @@ export default {
   margin: 25px 0;
   perspective: 1000px;
   height: 425px;
+  display: flex;
+  justify-content: center;
 
   .box-inner {
-    width: 100%;
+    width: calc(100% - 10px);
     height: 100%;
     text-align: center;
     transition: transform 0.5s;
     transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
   }
   .box-inner {
     animation: rotation 1.5s;
@@ -97,6 +107,7 @@ export default {
   .box-back {
     position: absolute;
     backface-visibility: hidden;
+    width: 100%;
   }
 
 
@@ -116,7 +127,7 @@ export default {
   gap: 6px;
   background-color: #ffffff;
   border-radius: 15px;
-  padding: 0 0 10px 0;
+  padding: 10px 0 10px 0;
   border: 1px solid #b6b6b6;
 
   span {
@@ -147,7 +158,6 @@ export default {
 
   .spriteList {
     box-shadow: none;
-    background-color: #ffffff;
     object-fit: contain;
     width: calc(100px * 3 + 6px * 2);
     border-radius: 15px 15px 0 0;

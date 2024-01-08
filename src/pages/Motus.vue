@@ -6,7 +6,7 @@
 
       <DifficultySelector :max-difficulty="maxDifficulty" @difficulty-updated="updateDifficulty" />
       <SearchBar :pokemon-list="currentPokemonList" @pokemon-selected="tryPokemon" :is-win="isWin"/>
-      <TriedPokemonList :tried-pokemons="triedPokemons" :pokemon="pokemon" />
+      <TriedPokemonList :tried-pokemons="triedPokemons" :pokemon="pokemon" :gamemode="Gamemodes.MOTUS"/>
 
     </div>
   </div>
@@ -15,17 +15,22 @@
   
   <script lang="ts">
   import {defineComponent} from "vue";
-  import SupabaseService from "../services/SupabaseService";
-  import Pokemon from "../types/Pokemon";
-  import {Gamemodes} from "../enums/Gamemodes";
-  import SearchBar from "./SearchBar.vue";
-  import TriedPokemonList from "./TriedPokemonList.vue";
-  import DifficultySelector from "./DifficultySelector.vue";
-  import VictoryRain from "./VictoryRain.vue";
+  import SupabaseService from "../services/SupabaseService.ts";
+  import Pokemon from "../types/Pokemon.ts";
+  import {Gamemodes} from "../enums/Gamemodes.ts";
+  import SearchBar from "../components/SearchBar.vue";
+  import TriedPokemonList from "../components/TriedPokemonList.vue";
+  import DifficultySelector from "../components/DifficultySelector.vue";
+  import VictoryRain from "../components/VictoryRain.vue";
 
 
   export default defineComponent({
     name: "tutorials-list",
+    computed: {
+      Gamemodes() {
+        return Gamemodes
+      }
+    },
     components: {VictoryRain, DifficultySelector, TriedPokemonList, SearchBar},
     data() {
       return {
@@ -79,8 +84,8 @@
       Continue(){
         this.isWin = false;
         this.refreshList();
+        this.$router.push({ name: "Description" });
       },
-
       async tryPokemon(pokemon: Pokemon){
         this.searchTerm = pokemon.name;
         this.filteredPokemonList = [];
@@ -105,7 +110,7 @@
   });
   </script>
   
-  <style lang="scss">
+  <style scoped lang="scss">
 
   .motus {
     margin: 0 1rem;
