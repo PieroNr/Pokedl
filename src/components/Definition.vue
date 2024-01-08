@@ -13,6 +13,7 @@ export default {
 
   methods: {
     replaceNameByDotInDescription(description: string) {
+      if (!this.pokemon) return;
       return description.replace(this.pokemon.name, "-----");
     },
   },
