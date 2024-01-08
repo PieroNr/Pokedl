@@ -23,6 +23,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: "Description",
                 component: () => import("./pages/Description.vue"),
             },
+            {
+                path: "/Pokedl/Shadow",
+                name: "Shadow",
+                component: () => import("./pages/Shadow.vue"),
+            },
 
         ],
     },
@@ -41,6 +46,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "/Pokedl/Description",
         name: "Description",
         component: () => import("./pages/Description.vue"),
+    },
+    {
+        path: "/Pokedl/Shadow",
+        name: "Shadow",
+        component: () => import("./pages/Shadow.vue"),
     },
     {
         path: "/:catchAll(.*)",

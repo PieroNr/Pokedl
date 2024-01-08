@@ -8,16 +8,18 @@ import TriedPokemonList from "../components/TriedPokemonList.vue";
 import DifficultySelector from "../components/DifficultySelector.vue";
 import VictoryRain from "../components/VictoryRain.vue";
 import Definition from "../components/Definition.vue";
+import ShadowSprite from "../components/ShadowSprite.vue";
+
 
 
 export default defineComponent({
-  name: "Description",
+  name: "Shadow",
   computed: {
     Gamemodes() {
       return Gamemodes
     }
   },
-  components: {Definition, VictoryRain, DifficultySelector, TriedPokemonList, SearchBar},
+  components: {ShadowSprite, Definition, VictoryRain, DifficultySelector, TriedPokemonList, SearchBar},
   data() {
     return {
       pokemon: null as Pokemon | null,
@@ -34,7 +36,7 @@ export default defineComponent({
   methods: {
     async getDailyPokemon() {
       try {
-        const { pokemon, pokemonList } = await SupabaseService.getDailyPokemon(this.difficulty, Gamemodes.DEFINITION);
+        const { pokemon, pokemonList } = await SupabaseService.getDailyPokemon(this.difficulty, Gamemodes.OMBRE);
         this.pokemon = pokemon;
         console.log(pokemon);
         this.currentPokemonList = pokemonList;
@@ -65,12 +67,13 @@ export default defineComponent({
 
     win(){
       this.isWin = true;
+      this.$refs.shadow.win();
     },
 
     Continue(){
       this.isWin = false;
       this.refreshList();
-      this.$router.push({ name: "Shadow" });
+      this.$router.push({ name: "Motus" });
     },
 
     async tryPokemon(pokemon: Pokemon){
@@ -79,6 +82,8 @@ export default defineComponent({
 
       this.searchedPokemon = await SupabaseService.getPokemonById(pokemon.pokedexId);
       this.triedPokemons.unshift(<Pokemon>this.searchedPokemon)
+      //use ref to call method from child component
+      this.$refs.shadow.centerAndZoomOut();
       if(pokemon.pokedexId == this.pokemon?.pokedexId){
         this.win();
       }
@@ -98,13 +103,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="definition container">
+  <div class="shadow container">
 
-    <div v-if="pokemon" class="definition-pokemon">
-      <Definition :pokemon="pokemon" />
+    <div v-if="pokemon" class="shadow-pokemon">
+      <ShadowSprite :pokemon="pokemon" ref="shadow"/>
       <DifficultySelector :max-difficulty="maxDifficulty" @difficulty-updated="updateDifficulty" />
       <SearchBar :pokemon-list="currentPokemonList" @pokemon-selected="tryPokemon" :is-win="isWin"/>
-      <TriedPokemonList :tried-pokemons="triedPokemons" :pokemon="pokemon" :gamemode="Gamemodes.DEFINITION"/>
+      <TriedPokemonList :tried-pokemons="triedPokemons" :pokemon="pokemon" :gamemode="Gamemodes.OMBRE"/>
 
     </div>
   </div>
@@ -113,7 +118,7 @@ export default defineComponent({
 
 <style lang="scss">
 
-.definition {
+.shadow {
   margin: 0 1rem;
   width: calc(100% - 2rem);
 

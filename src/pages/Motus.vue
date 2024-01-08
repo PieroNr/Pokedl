@@ -25,7 +25,7 @@
 
 
   export default defineComponent({
-    name: "tutorials-list",
+    name: "Motus",
     computed: {
       Gamemodes() {
         return Gamemodes

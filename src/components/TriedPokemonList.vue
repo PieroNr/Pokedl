@@ -4,14 +4,14 @@
 
   <div class="tried-pokemon-list container">
     <div v-if="triedPokemons && triedPokemons.length > 0 && pokemon" class="tried-pokemon-list-container">
-      <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px' : '425px'}">
+      <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try" :style="{height: gamemode==Gamemodes.MOTUS ? '425px' : '122px'}">
         <div class="box-inner">
-        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px' : '425px'}">
-          <img class="spriteList-white" :src="triedPokemon.officialArtworkUrl"/>
+        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front" :style="{height: gamemode==Gamemodes.MOTUS ? '425px' : '122px'}">
+          <img class="spriteList-white" :src="triedPokemon.officialArtworkUrl" alt="sprite" />
         </div>
-        <div v-if="triedPokemon" class="try-list box-back" :style="{backgroundColor: gamemode==Gamemodes.DEFINITION ? triedPokemon.pokedexId == pokemon.pokedexId ? '#7fc27f' : '#ff9393' : 'transparent'}">
+        <div v-if="triedPokemon" class="try-list box-back" :style="{backgroundColor: gamemode!=Gamemodes.MOTUS ? triedPokemon.pokedexId == pokemon.pokedexId ? '#7fc27f' : '#ff9393' : 'transparent'}">
 
-          <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl" />
+          <img class="spriteList" v-if="triedPokemon && triedPokemon.spriteUrl" :src="triedPokemon.spriteUrl" alt="sprite" />
 
           <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: triedPokemon.firstType.name == pokemon?.firstType.name ? '#7fc27f' : '#ff9393'}"><p class="prop">Type 1</p>{{ triedPokemon.firstType.name }}</span>
           <span v-if="gamemode==Gamemodes.MOTUS" :style="{backgroundColor: (triedPokemon.secondType && pokemon?.secondType && triedPokemon.secondType.name == pokemon?.secondType.name) || (!triedPokemon.secondType && !pokemon?.secondType) ? '#7fc27f' : '#ff9393'}"><p class="prop">Type 2</p>{{ triedPokemon.secondType ? triedPokemon.secondType.name : 'Aucun' }}</span>
