@@ -4,9 +4,9 @@
 
   <div class="tried-pokemon-list container">
     <div v-if="triedPokemons && triedPokemons.length > 0 && pokemon" class="tried-pokemon-list-container">
-      <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px!important' : 'auto'}">
+      <div v-for="triedPokemon in triedPokemons"  :key="triedPokemon.name" class="try" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px' : '425px'}">
         <div class="box-inner">
-        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px!important' : 'auto'}">
+        <div v-if="triedPokemon && triedPokemon.officialArtworkUrl" class="try-list box-front" :style="{height: gamemode==Gamemodes.DEFINITION ? '122px' : '425px'}">
           <img class="spriteList-white" :src="triedPokemon.officialArtworkUrl"/>
         </div>
         <div v-if="triedPokemon" class="try-list box-back" :style="{backgroundColor: gamemode==Gamemodes.DEFINITION ? triedPokemon.pokedexId == pokemon.pokedexId ? '#7fc27f' : '#ff9393' : 'transparent'}">
@@ -70,7 +70,6 @@ export default {
 .try {
   margin: 25px 0;
   perspective: 1000px;
-  height: 425px;
   display: flex;
   justify-content: center;
 
@@ -99,7 +98,6 @@ export default {
   .box-front{
     background-color: #e0e0e0;
     width: 100%;
-    height: 425px;
 
   }
 
