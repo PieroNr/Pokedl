@@ -45,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/:catchAll(.*)",
         redirect: "/Pokedl/Home",
-        Children: [
+        children: [
             ]
     },
 
