@@ -23,7 +23,7 @@ export default {
     centerAndZoomOut() {
       this.position = [...this.initialPosition];
       if (this.widthPercentage > 95) {
-        this.widthPercentage -= 5;
+        this.widthPercentage -= 20;
       }
     },
 
