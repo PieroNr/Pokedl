@@ -67,7 +67,7 @@ export default defineComponent({
 
     win(){
       this.isWin = true;
-      this.$refs.shadow.win();
+      (this.$refs.shadow as any).win();
     },
 
     Continue(){
@@ -81,9 +81,9 @@ export default defineComponent({
       this.filteredPokemonList = [];
 
       this.searchedPokemon = await SupabaseService.getPokemonById(pokemon.pokedexId);
-      this.triedPokemons.unshift(<Pokemon>this.searchedPokemon)
+      this.triedPokemons.unshift(<Pokemon>this.searchedPokemon);
       //use ref to call method from child component
-      this.$refs.shadow.centerAndZoomOut();
+      (this.$refs.shadow as any).centerAndZoomOut();
       if(pokemon.pokedexId == this.pokemon?.pokedexId){
         this.win();
       }
